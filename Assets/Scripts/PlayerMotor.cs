@@ -9,6 +9,7 @@ public class PlayerMotor : MonoBehaviour {
 
 	private Vector3 velocity = Vector3.zero;
 	private Vector3 rotation = Vector3.zero;
+    public float boost = 1000;
 	private float cameraRotationX = 0f;
     private float currentCameraRotationX = 0f;
 	private Vector3 thrusterForce = Vector3.zero;
@@ -43,7 +44,7 @@ public class PlayerMotor : MonoBehaviour {
 	}
 
 	//Runs every physics iteration
-	void FixedUpdate(){
+	void Update(){
 		PerformMovement ();
 		PerformRotation ();
 
@@ -59,7 +60,13 @@ public class PlayerMotor : MonoBehaviour {
 		if (thrusterForce != Vector3.zero) {
 			rb.AddForce (thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
 		}
-	}
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            print("Boost");
+            rb.AddForce(velocity * boost, ForceMode.Impulse);
+        }
+    }
 
 
 	//Perform rotation
