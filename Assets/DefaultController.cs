@@ -2,24 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultController : MonoBehaviour {
+public class DefaultController : MonoBehaviour
+{
 
     public float Speed = 8;
     public float MouseSensitivity = 150;
     public float MaxLookUp = 0.6f;
     public float MaxLookDown = 0.65f;
     public GameObject Head;
+    public GameObject Body;
+    public Animator Animator;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Cursor.visible = false;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        Animator = Body.GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         UpdateMovement();
         UpdateRotation();
+    }
+
+    void FixedUpdate()
+    {
+
     }
 
     private void UpdateRotation()
@@ -47,7 +57,35 @@ public class DefaultController : MonoBehaviour {
 
     private void UpdateMovement()
     {
-        transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * Speed;
-        transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * Speed;
+        var horizontal = Input.GetAxis("Horizontal");
+        var vertical = Input.GetAxis("Vertical");
+        Vector3 positionChange = transform.right * horizontal * Time.deltaTime * Speed;
+        positionChange += transform.forward * vertical * Time.deltaTime * Speed;
+
+        Debug.Log(transform.right + transform.position);
+        Vector3 lookAt = Vector3.zero;
+        if (horizontal > 0)
+        {
+            lookAt += transform.right;
+        }
+        else if (horizontal < 0)
+        {
+            lookAt -= transform.right;
+        } 
+
+        if(vertical > 0)
+        {
+            lookAt += transform.forward;
+        } else if(vertical < 0)
+        {
+            lookAt -= transform.forward;
+        }
+        lookAt += transform.position;
+        lookAt.y = Body.transform.position.y;
+        Debug.Log(lookAt);
+        Body.transform.LookAt(lookAt);
+
+        transform.position += positionChange;
+        Animator.SetFloat("Speed", positionChange.magnitude);
     }
 }
