@@ -62,7 +62,14 @@ public class DefaultController : MonoBehaviour
         Vector3 positionChange = transform.right * horizontal * Time.deltaTime * Speed;
         positionChange += transform.forward * vertical * Time.deltaTime * Speed;
 
-        Debug.Log(transform.right + transform.position);
+        UpdateModelOrientation(horizontal, vertical);
+
+        transform.position += positionChange;
+        Animator.SetFloat("Speed", positionChange.magnitude);
+    }
+
+    private void UpdateModelOrientation(float horizontal, float vertical)
+    {
         Vector3 lookAt = Vector3.zero;
         if (horizontal > 0)
         {
@@ -71,21 +78,18 @@ public class DefaultController : MonoBehaviour
         else if (horizontal < 0)
         {
             lookAt -= transform.right;
-        } 
+        }
 
-        if(vertical > 0)
+        if (vertical > 0)
         {
             lookAt += transform.forward;
-        } else if(vertical < 0)
+        }
+        else if (vertical < 0)
         {
             lookAt -= transform.forward;
         }
         lookAt += transform.position;
         lookAt.y = Body.transform.position.y;
-        Debug.Log(lookAt);
         Body.transform.LookAt(lookAt);
-
-        transform.position += positionChange;
-        Animator.SetFloat("Speed", positionChange.magnitude);
     }
 }
