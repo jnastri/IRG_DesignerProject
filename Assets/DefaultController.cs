@@ -81,6 +81,7 @@ public class DefaultController : MonoBehaviour
         vertical = Input.GetAxis(VERTICAL_AXIS);
         positionChange = transform.right * horizontal * Time.deltaTime * Speed;
         positionChange += transform.forward * vertical * Time.deltaTime * Speed;
+
     }
 
     private void ClampSidewaysSpeed(ref Vector3 positionChange)
@@ -90,8 +91,11 @@ public class DefaultController : MonoBehaviour
 
     private void UpdateModelOrientation(float horizontal, float vertical, Vector3 positionChange)
     {
-        positionChange += transform.position;
-        positionChange.y = Body.transform.position.y;
-        Body.transform.LookAt(positionChange);
+        if (horizontal != 0 || vertical != 0)
+        {
+            positionChange += Body.transform.position;
+            positionChange.y = Body.transform.position.y;
+            Body.transform.LookAt(positionChange);
+        }
     }
 }
