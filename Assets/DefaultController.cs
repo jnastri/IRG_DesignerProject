@@ -76,7 +76,7 @@ public class DefaultController : MonoBehaviour
         transform.position += positionChange;
 
         Speedometer = positionChange.magnitude;
-        Animator.SetFloat(SPEED, Speedometer);
+        Animator.SetFloat(SPEED, positionChange.magnitude);
 
     }
 
