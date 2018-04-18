@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DefaultController : MonoBehaviour
 {
+    private const string HORIZONTAL_AXIS = "Horizontal";
+    private const string VERTICAL_AXIS = "Vertical";
+    private const string MOUSE_X = "Mouse X";
+    private const string MOUSE_Y = "Mouse Y";
+    private const string SPEED = "Speed";
 
     public float Speed = 8;
     public float MouseSensitivity = 150;
@@ -34,8 +39,8 @@ public class DefaultController : MonoBehaviour
 
     private void UpdateRotation()
     {
-        float h = MouseSensitivity * Input.GetAxis("Mouse X") * Time.deltaTime;
-        float v = -MouseSensitivity * Input.GetAxis("Mouse Y") * Time.deltaTime;
+        float h = MouseSensitivity * Input.GetAxis(MOUSE_X) * Time.deltaTime;
+        float v = -MouseSensitivity * Input.GetAxis(MOUSE_Y) * Time.deltaTime;
 
         transform.Rotate(0, h, 0);
         Head.transform.Rotate(v, 0, 0);
@@ -67,13 +72,13 @@ public class DefaultController : MonoBehaviour
         ClampSidewaysSpeed(ref positionChange);
         transform.position += positionChange;
 
-        Animator.SetFloat("Speed", positionChange.magnitude);
+        Animator.SetFloat(SPEED, positionChange.magnitude);
     }
 
     private void GetInputFromKeyboard(out float horizontal, out float vertical, out Vector3 positionChange)
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis(HORIZONTAL_AXIS);
+        vertical = Input.GetAxis(VERTICAL_AXIS);
         positionChange = transform.right * horizontal * Time.deltaTime * Speed;
         positionChange += transform.forward * vertical * Time.deltaTime * Speed;
     }
