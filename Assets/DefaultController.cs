@@ -14,6 +14,9 @@ public class DefaultController : MonoBehaviour
     public float MouseSensitivity = 150;
     public float MaxLookUp = 0.6f;
     public float MaxLookDown = 0.65f;
+
+    public float Speedometer = 0;
+
     public GameObject Head;
     public GameObject Body;
     public Animator Animator;
@@ -72,7 +75,9 @@ public class DefaultController : MonoBehaviour
         ClampSidewaysSpeed(ref positionChange);
         transform.position += positionChange;
 
-        Animator.SetFloat(SPEED, positionChange.magnitude);
+        Speedometer = positionChange.magnitude;
+        Animator.SetFloat(SPEED, Speedometer);
+
     }
 
     private void GetInputFromKeyboard(out float horizontal, out float vertical, out Vector3 positionChange)
@@ -81,7 +86,6 @@ public class DefaultController : MonoBehaviour
         vertical = Input.GetAxis(VERTICAL_AXIS);
         positionChange = transform.right * horizontal * Time.deltaTime * Speed;
         positionChange += transform.forward * vertical * Time.deltaTime * Speed;
-
     }
 
     private void ClampSidewaysSpeed(ref Vector3 positionChange)
