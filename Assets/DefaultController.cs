@@ -57,39 +57,36 @@ public class DefaultController : MonoBehaviour
 
     private void UpdateMovement()
     {
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
-        Vector3 positionChange = transform.right * horizontal * Time.deltaTime * Speed;
-        positionChange += transform.forward * vertical * Time.deltaTime * Speed;
+        float horizontal;
+        float vertical;
+        Vector3 positionChange;
 
-        UpdateModelOrientation(horizontal, vertical);
+        GetInputFromKeyboard(out horizontal, out vertical, out positionChange);
 
+        UpdateModelOrientation(horizontal, vertical, positionChange);
+        ClampSidewaysSpeed(ref positionChange);
         transform.position += positionChange;
+
         Animator.SetFloat("Speed", positionChange.magnitude);
     }
 
-    private void UpdateModelOrientation(float horizontal, float vertical)
+    private void GetInputFromKeyboard(out float horizontal, out float vertical, out Vector3 positionChange)
     {
-        Vector3 lookAt = Vector3.zero;
-        if (horizontal > 0)
-        {
-            lookAt += transform.right;
-        }
-        else if (horizontal < 0)
-        {
-            lookAt -= transform.right;
-        }
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        positionChange = transform.right * horizontal * Time.deltaTime * Speed;
+        positionChange += transform.forward * vertical * Time.deltaTime * Speed;
+    }
 
-        if (vertical > 0)
-        {
-            lookAt += transform.forward;
-        }
-        else if (vertical < 0)
-        {
-            lookAt -= transform.forward;
-        }
-        lookAt += transform.position;
-        lookAt.y = Body.transform.position.y;
-        Body.transform.LookAt(lookAt);
+    private void ClampSidewaysSpeed(ref Vector3 positionChange)
+    {
+        positionChange = Vector3.ClampMagnitude(positionChange, Time.deltaTime * Speed);
+    }
+
+    private void UpdateModelOrientation(float horizontal, float vertical, Vector3 positionChange)
+    {
+        positionChange += transform.position;
+        positionChange.y = Body.transform.position.y;
+        Body.transform.LookAt(positionChange);
     }
 }
