@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SlidingController : MonoBehaviour
 {
-
+    private const string IS_SLIDING = "IsSliding";
     public Animator Animator;
     public GameObject Body;
 
@@ -32,7 +32,7 @@ public class SlidingController : MonoBehaviour
 
     void OnEnable()
     {
-        Animator.SetBool("IsSliding", true);
+        Animator.SetBool(IS_SLIDING, true);
         Settings = GetComponent<ControllerSettings>();
         positionChange = DefaultController.PositionChangeClamped;
         initialPosition = Body.transform.localPosition;

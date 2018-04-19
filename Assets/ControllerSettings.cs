@@ -7,6 +7,7 @@ public class ControllerSettings : MonoBehaviour {
     public const string VERTICAL_AXIS = "Vertical";
     public const string SPEED = "Speed";
     public const string SLIDE = "Slide";
+    internal const string JUMP = "Jump";
 
     public float Speed = 12;
 

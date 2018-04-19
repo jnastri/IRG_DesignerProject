@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlidingTrigger : MonoBehaviour
+public class SlidingTrigger : BehaviorTrigger
 {
 
     public float EntrySpeed;
@@ -21,6 +21,7 @@ public class SlidingTrigger : MonoBehaviour
     {
         if ((Time.time - slidingController.endTime) > 0.1f && defaultController.PositionChangeClamped.magnitude > EntrySpeed && Input.GetAxis(ControllerSettings.SLIDE) > 0)
         {
+            DisableAllTriggersButMe();
             defaultController.enabled = false;
             slidingController.enabled = true;
         }
