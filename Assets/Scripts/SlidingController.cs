@@ -22,6 +22,7 @@ public class SlidingController : MonoBehaviour
     Quaternion terminalRotation;
     float startTime;
     Vector3 positionChange;
+    bool exiting;
     // Use this for initialization
     void Start()
     {
@@ -40,6 +41,7 @@ public class SlidingController : MonoBehaviour
         terminalRotation = initialRotation * Quaternion.Euler(-28.975f, 4.481f, -17.897f);
         startTime = Time.time;
         GetComponent<CameraController>().IsRotatingCharacter = false;
+        exiting = false;
     }
 
     void Disable()
@@ -50,14 +52,18 @@ public class SlidingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (positionChange.magnitude > MinimumSpeed)
+        if (positionChange.magnitude > MinimumSpeed )
         {
             transform.position += positionChange;
             positionChange -= DefaultController.PositionChangeClamped * Friction;
         }
 
-        if ((Time.time - startTime) > 1 && Input.GetAxis("Slide") == 0 || positionChange.magnitude < MinimumSpeed)
+        if ((Time.time - startTime) > 0.5f && (positionChange.magnitude < MinimumSpeed 
+            || exiting 
+            || Input.GetAxis(ControllerSettings.SLIDE) == 0
+            ))
         {
+            exiting = true;
             StartCoroutine(SlideOut());
             return;
         }
