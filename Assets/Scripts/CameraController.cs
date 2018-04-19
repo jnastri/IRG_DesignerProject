@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
 
     private const string MOUSE_X = "Mouse X";
     private const string MOUSE_Y = "Mouse Y";
@@ -12,14 +13,16 @@ public class CameraController : MonoBehaviour {
     public float MouseSensitivity = 150;
     public float MaxLookUp = -0.2f;
     public float MaxLookDown = 0.2f;
-
+    public bool IsRotatingCharacter = true;
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         UpdateRotation();
     }
@@ -29,7 +32,8 @@ public class CameraController : MonoBehaviour {
         float h = MouseSensitivity * Input.GetAxis(MOUSE_X) * Time.deltaTime;
         float v = -MouseSensitivity * Input.GetAxis(MOUSE_Y) * Time.deltaTime;
 
-        transform.Rotate(0, h, 0);
+        if (IsRotatingCharacter)
+            transform.Rotate(0, h, 0);
         Head.transform.Rotate(v, 0, 0);
 
         RotationClamping();

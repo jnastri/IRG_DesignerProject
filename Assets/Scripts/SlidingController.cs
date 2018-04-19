@@ -13,6 +13,7 @@ public class SlidingController : MonoBehaviour
 
     public float Friction = 0.01f;
     public float MinimumSpeed = 0.3f;
+    public float endTime;
 
     ControllerSettings Settings;
     Vector3 initialPosition;
@@ -38,6 +39,7 @@ public class SlidingController : MonoBehaviour
         terminalPosition = new Vector3(initialPosition.x - 0.36733071f, initialPosition.y - 0.893f, initialPosition.z - -0.6970924f);
         terminalRotation = initialRotation * Quaternion.Euler(-28.975f, 4.481f, -17.897f);
         startTime = Time.time;
+        GetComponent<CameraController>().IsRotatingCharacter = false;
     }
 
     void Disable()
@@ -80,6 +82,7 @@ public class SlidingController : MonoBehaviour
 
         GetComponent<DefaultController>().enabled = true;
         GetComponent<SlidingController>().enabled = false;
-
+        GetComponent<CameraController>().IsRotatingCharacter = true;
+        endTime = Time.time;
     }
 }

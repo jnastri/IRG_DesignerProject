@@ -19,7 +19,7 @@ public class SlidingTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (defaultController.PositionChangeClamped.magnitude > EntrySpeed && Input.GetAxis(ControllerSettings.SLIDE) > 0)
+        if ((Time.time - slidingController.endTime) > 0.1f && defaultController.PositionChangeClamped.magnitude > EntrySpeed && Input.GetAxis(ControllerSettings.SLIDE) > 0)
         {
             defaultController.enabled = false;
             slidingController.enabled = true;
