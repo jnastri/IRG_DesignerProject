@@ -8,6 +8,8 @@ public class JumpingController : MonoBehaviour {
     public Animator Animator;
 
     new Rigidbody rigidbody;
+
+    public float jumpForce = 100;
     // Use this for initialization
     void Start () {
 
@@ -22,7 +24,7 @@ public class JumpingController : MonoBehaviour {
     {
         rigidbody = GetComponent<Rigidbody>();
         Animator.SetBool("IsJumping", true);
-        rigidbody.AddForce(transform.up * 20, ForceMode.Impulse);
+        rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         StartCoroutine(StopJumping());
     }
 
