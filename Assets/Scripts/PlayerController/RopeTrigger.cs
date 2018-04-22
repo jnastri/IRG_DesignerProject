@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RopeTrigger : MonoBehaviour
-{
-    public Transform[] EntryPoints;
-
+{ 
 
     // Use this for initialization
     void Start()

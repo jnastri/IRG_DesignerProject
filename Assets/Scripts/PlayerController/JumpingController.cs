@@ -22,6 +22,7 @@ public class JumpingController : MonoBehaviour {
 
     void OnEnable()
     {
+        GetComponent<CameraController>().EnableWiderAngle();
         rigidbody = GetComponent<Rigidbody>();
         Animator.SetBool(ControllerSettings.IS_JUMPING, true);
         rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);

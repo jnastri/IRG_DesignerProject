@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     public float MaxLookDown = 0.2f;
 
     private bool IsRotatingCharacter = true;
+
     // Use this for initialization
     void Start()
     {
@@ -25,7 +26,6 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         UpdateRotation();
     }
 
@@ -38,6 +38,7 @@ public class CameraController : MonoBehaviour
             transform.Rotate(0, h, 0);
         else
             Pivot.transform.Rotate(0, h, 0);
+
         Lever.transform.Rotate(v, 0, 0);
 
         RotationClamping();
@@ -64,7 +65,20 @@ public class CameraController : MonoBehaviour
 
     public void DisableBodyRotation()
     {
-        
+
         IsRotatingCharacter = false;
+    }
+
+    public void EnableWiderAngle()
+    {
+        MaxLookUp = -0.6f;
+        MaxLookDown = 0.8f;
+    }
+
+    public void DisableWiderAngle()
+    {
+        MaxLookUp = -0.2f;
+        MaxLookDown = 0.2f;
+
     }
 }

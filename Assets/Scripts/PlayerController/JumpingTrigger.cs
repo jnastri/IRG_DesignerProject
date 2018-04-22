@@ -8,23 +8,21 @@ public class JumpingTrigger : BehaviorTrigger
 
     DefaultController defaultController;
     JumpingController jumpingController;
-    float distanceToGround;
+    ControllerSettings settings;
     // Use this for initialization
     void Start()
     {
         defaultController = GetComponent<DefaultController>();
         jumpingController = GetComponent<JumpingController>();
-        distanceToGround = GetComponent<Collider>().bounds.extents.y;
+        settings = GetComponent<ControllerSettings>();
+
     }
 
-    bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
-    }
+   
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis(ControllerSettings.JUMP) > 0 && IsGrounded())
+        if (Input.GetAxis(ControllerSettings.JUMP) > 0 && settings.IsGrounded())
         {
             DisableAllTriggersButMe();
             jumpingController.enabled = true;

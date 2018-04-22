@@ -65,6 +65,7 @@ public class RopeController : MonoBehaviour
     private void SetRotation()
     {
         CameraController.DisableBodyRotation();
+        CameraController.EnableWiderAngle();
         Vector3 projection = Vector3.Project(transform.forward, ropeTrigger.transform.position - transform.position);
         projection += transform.position;
         projection.y = transform.position.y;
@@ -97,5 +98,6 @@ public class RopeController : MonoBehaviour
         enabled = false;
         GetComponent<DefaultController>().enabled = true;
         CameraController.EnableBodyRotation();
+        CameraController.DisableWiderAngle();
     }
 }
