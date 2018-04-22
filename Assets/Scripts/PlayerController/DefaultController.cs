@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DefaultController : MonoBehaviour
 {
- 
-    
+
+
 
     public float Speedometer = 0;
 
@@ -15,6 +16,7 @@ public class DefaultController : MonoBehaviour
     public Vector3 PositionChangeClamped;
 
     ControllerSettings Settings;
+
     // Use this for initialization
     void Start()
     {
@@ -31,16 +33,18 @@ public class DefaultController : MonoBehaviour
     {
 
     }
-    
+
 
     private void UpdateMovement()
     {
         float horizontal;
         float vertical;
 
+
         GetInputFromKeyboard(out horizontal, out vertical, out PositionChangeClamped);
 
-        UpdateModelOrientation(horizontal, vertical, PositionChangeClamped);
+
+        UpdateModelOrientation(PositionChangeClamped);
         ClampSidewaysSpeed(ref PositionChangeClamped);
         transform.position += PositionChangeClamped;
 
@@ -61,13 +65,16 @@ public class DefaultController : MonoBehaviour
         positionChange = Vector3.ClampMagnitude(positionChange, Time.deltaTime * Settings.Speed);
     }
 
-    private void UpdateModelOrientation(float horizontal, float vertical, Vector3 positionChange)
+    private void UpdateModelOrientation(Vector3 positionChange)
     {
-        if (horizontal != 0 || vertical != 0)
+        if (positionChange.magnitude > 0)
         {
+            Debug.DrawRay(transform.position, positionChange, Color.red);
             positionChange += Body.transform.position;
             positionChange.y = Body.transform.position.y;
             Body.transform.LookAt(positionChange);
+
         }
     }
+
 }

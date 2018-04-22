@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RopeTrigger : MonoBehaviour
 {
-
+    public Transform[] EntryPoints;
 
 
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class RopeTrigger : MonoBehaviour
         var ropeController = collision.collider.GetComponent<RopeController>();
         if (ropeController)
         {
-            ropeController.TriggerWalkExit(this);
+            ropeController.TriggerExit();
         }
     }
 }

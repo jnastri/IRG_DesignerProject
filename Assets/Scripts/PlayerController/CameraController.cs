@@ -8,12 +8,14 @@ public class CameraController : MonoBehaviour
     private const string MOUSE_X = "Mouse X";
     private const string MOUSE_Y = "Mouse Y";
 
-    public GameObject Head;
+    public GameObject Pivot;
+    public GameObject Lever;
 
     public float MouseSensitivity = 150;
     public float MaxLookUp = -0.2f;
     public float MaxLookDown = 0.2f;
-    public bool IsRotatingCharacter = true;
+
+    private bool IsRotatingCharacter = true;
     // Use this for initialization
     void Start()
     {
@@ -35,8 +37,8 @@ public class CameraController : MonoBehaviour
         if (IsRotatingCharacter)
             transform.Rotate(0, h, 0);
         else
-            Head.transform.Rotate(0, h, 0);
-        Head.transform.Rotate(v, 0, 0);
+            Pivot.transform.Rotate(0, h, 0);
+        Lever.transform.Rotate(v, 0, 0);
 
         RotationClamping();
     }
@@ -44,13 +46,25 @@ public class CameraController : MonoBehaviour
 
     private void RotationClamping()
     {
-        if (Head.transform.localRotation.x > MaxLookDown)
+        if (Lever.transform.localRotation.x > MaxLookDown)
         {
-            Head.transform.localRotation = new Quaternion(MaxLookDown, 0, 0, Head.transform.localRotation.w);
+            Lever.transform.localRotation = new Quaternion(MaxLookDown, 0, 0, Lever.transform.localRotation.w);
         }
-        else if (Head.transform.localRotation.x < MaxLookUp)
+        else if (Lever.transform.localRotation.x < MaxLookUp)
         {
-            Head.transform.localRotation = new Quaternion(MaxLookUp, 0, 0, Head.transform.localRotation.w);
+            Lever.transform.localRotation = new Quaternion(MaxLookUp, 0, 0, Lever.transform.localRotation.w);
         }
+    }
+
+    public void EnableBodyRotation()
+    {
+        Pivot.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        IsRotatingCharacter = true;
+    }
+
+    public void DisableBodyRotation()
+    {
+        
+        IsRotatingCharacter = false;
     }
 }

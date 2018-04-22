@@ -40,7 +40,7 @@ public class SlidingController : MonoBehaviour
         terminalPosition = new Vector3(initialPosition.x - 0.36733071f, initialPosition.y - 0.893f, initialPosition.z - -0.6970924f);
         terminalRotation = initialRotation * Quaternion.Euler(-28.975f, 4.481f, -17.897f);
         startTime = Time.time;
-        GetComponent<CameraController>().IsRotatingCharacter = false;
+        GetComponent<CameraController>().DisableBodyRotation();
         exiting = false;
     }
 
@@ -88,7 +88,7 @@ public class SlidingController : MonoBehaviour
 
         GetComponent<DefaultController>().enabled = true;
         GetComponent<SlidingController>().enabled = false;
-        GetComponent<CameraController>().IsRotatingCharacter = true;
+        GetComponent<CameraController>().EnableBodyRotation();
         endTime = Time.time;
     }
 }

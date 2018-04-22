@@ -23,7 +23,7 @@ public class JumpingController : MonoBehaviour {
     void OnEnable()
     {
         rigidbody = GetComponent<Rigidbody>();
-        Animator.SetBool("IsJumping", true);
+        Animator.SetBool(ControllerSettings.IS_JUMPING, true);
         rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         StartCoroutine(StopJumping());
     }
@@ -33,7 +33,7 @@ public class JumpingController : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         
         yield return new WaitForSeconds(1);
-        Animator.SetBool("IsJumping", false);
+        Animator.SetBool(ControllerSettings.IS_JUMPING, false);
         GetComponent<JumpingTrigger>().EnableAllTriggers();
         enabled = false;
         GetComponent<DefaultController>().enabled = true;
