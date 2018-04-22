@@ -34,6 +34,8 @@ public class CameraController : MonoBehaviour
 
         if (IsRotatingCharacter)
             transform.Rotate(0, h, 0);
+        else
+            Head.transform.Rotate(0, h, 0);
         Head.transform.Rotate(v, 0, 0);
 
         RotationClamping();

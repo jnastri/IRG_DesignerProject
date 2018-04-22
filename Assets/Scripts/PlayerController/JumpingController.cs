@@ -31,8 +31,9 @@ public class JumpingController : MonoBehaviour {
     private IEnumerator StopJumping()
     {
         yield return new WaitForEndOfFrame();
-        Animator.SetBool("IsJumping", false);
+        
         yield return new WaitForSeconds(1);
+        Animator.SetBool("IsJumping", false);
         GetComponent<JumpingTrigger>().EnableAllTriggers();
         enabled = false;
         GetComponent<DefaultController>().enabled = true;
