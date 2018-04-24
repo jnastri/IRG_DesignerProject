@@ -75,21 +75,9 @@ public class RopeController : MonoBehaviour
 
     private void SetPosition()
     {
-        //StartCoroutine(LerpMovement());
         Vector3 entryPosition = ropeTrigger.GetComponent<Collider>().ClosestPoint(transform.position);
         entryPosition.y = transform.position.y;
         transform.position = entryPosition;
-    }
-
-    IEnumerator LerpMovement()
-    {
-        Vector3 entryPosition = ropeTrigger.GetComponent<Collider>().ClosestPoint(transform.position);
-        entryPosition.y = transform.position.y;
-        while (Vector3.Distance(entryPosition, transform.position) > 0.1f)
-        {
-            transform.position = Vector3.Lerp(transform.position, entryPosition, Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
     }
 
     private void ToggleOtherControllers()
