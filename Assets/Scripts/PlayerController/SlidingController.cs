@@ -26,7 +26,7 @@ public class SlidingController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        //Time.timeScale = 0.4f;
     }
 
 
@@ -34,6 +34,7 @@ public class SlidingController : MonoBehaviour
     {
         Animator.SetBool(IS_SLIDING, true);
         Settings = GetComponent<ControllerSettings>();
+        GetComponent<RopeTrigger>().enabled = false;
         positionChange = DefaultController.PositionChangeClamped;
         initialPosition = Body.transform.localPosition;
         initialRotation = Body.transform.localRotation;
@@ -52,7 +53,7 @@ public class SlidingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (positionChange.magnitude > MinimumSpeed )
+        if (positionChange.magnitude > MinimumSpeed)
         {
             transform.position += positionChange;
             positionChange -= DefaultController.PositionChangeClamped * Friction;
@@ -88,7 +89,9 @@ public class SlidingController : MonoBehaviour
 
         GetComponent<DefaultController>().enabled = true;
         GetComponent<SlidingController>().enabled = false;
+        GetComponent<JumpingTrigger>().enabled = true;
         GetComponent<CameraController>().EnableBodyRotation();
+        GetComponent<RopeTrigger>().enabled = true;
         endTime = Time.time;
     }
 }

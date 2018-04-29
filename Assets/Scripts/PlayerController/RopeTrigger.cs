@@ -4,34 +4,34 @@ using UnityEngine;
 
 public class RopeTrigger : MonoBehaviour
 { 
-
-    // Use this for initialization
-    void Start()
+     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionStay(Collision collision)
     {
-        var ropeController = collision.collider.GetComponent<RopeController>();
-        if (ropeController)
+        if (enabled)
         {
-            ropeController.TriggerWalkEnter(this);
+            var rope = collision.collider.GetComponent<Rope>();
+            if (rope)
+            {
+                GetComponent<RopeController>().TriggerWalkEnter(rope);
+            }
         }
     }
 
     public void OnCollisionExit(Collision collision)
     {
-        var ropeController = collision.collider.GetComponent<RopeController>();
-        if (ropeController)
+        var rope = collision.collider.GetComponent<Rope>();
+        if (rope)
         {
-            ropeController.TriggerExit();
+            GetComponent<RopeController>().TriggerExit();
         }
     }
 }

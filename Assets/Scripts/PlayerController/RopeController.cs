@@ -11,7 +11,7 @@ public class RopeController : MonoBehaviour
     public CameraController CameraController;
     public Animator Animator;
 
-    RopeTrigger ropeTrigger;
+    Rope rope;
     ControllerSettings settings;
     // Use this for initialization
     void Start()
@@ -26,19 +26,18 @@ public class RopeController : MonoBehaviour
         transform.position += transform.forward * movement * Time.deltaTime * settings.Speed;
         if (movement > 0)
         {
-            SetRotation();
+            AlignWithRope();
             Body.transform.LookAt(transform.forward + Body.transform.position);
             SetAnimatorSpeed(movement);
         }
         else if (movement < 0)
         {
-            SetRotation();
+            AlignWithRope();
             Body.transform.LookAt(-transform.forward + Body.transform.position);
             SetAnimatorSpeed(-movement);
         }
         else
         {
-            CameraController.EnableBodyRotation();
             SetAnimatorSpeed(0);
             if (Input.GetAxis(ControllerSettings.DROP_HANG) > 0)
             {
@@ -48,15 +47,46 @@ public class RopeController : MonoBehaviour
         }
     }
 
+    private void AlignWithRope()
+    {
+        var pointA = rope.Points[0].position;
+        var pointB = rope.Points[1].position;
+        var closestPoint = GetClosestPointOnLine(pointA, pointB, transform.position);
+        closestPoint.y = transform.position.y;
+        transform.position = Vector3.Lerp(transform.position, closestPoint, 0.1f);
+    }
+
+    Vector3 GetClosestPointOnLine(Vector3 vA, Vector3 vB, Vector3 vPoint)
+    {
+        var vVector1 = vPoint - vA;
+        var vVector2 = (vB - vA).normalized;
+
+        var d = Vector3.Distance(vA, vB);
+        var t = Vector3.Dot(vVector2, vVector1);
+
+        if (t <= 0)
+            return vA;
+
+        if (t >= d)
+            return vB;
+
+        var vVector3 = vVector2 * t;
+
+        var vClosestPoint = vA + vVector3;
+
+        return vClosestPoint;
+    }
+
     private void SetAnimatorSpeed(float speed)
     {
         Animator.SetFloat(ControllerSettings.SPEED, speed);
     }
 
-    internal void TriggerWalkEnter(RopeTrigger ropeTrigger)
+    internal void TriggerWalkEnter(Rope rope)
     {
         if (Animator.GetBool(ControllerSettings.IS_HANGING)) return;
-        this.ropeTrigger = ropeTrigger;
+        this.rope = rope;
+        GetComponent<RopeTrigger>().enabled = false;
         ToggleOtherControllers();
         SetPosition();
         SetRotation();
@@ -66,7 +96,7 @@ public class RopeController : MonoBehaviour
     {
         CameraController.DisableBodyRotation();
         CameraController.EnableWiderAngle();
-        Vector3 projection = Vector3.Project(transform.forward, ropeTrigger.transform.position - transform.position);
+        Vector3 projection = Vector3.Project(transform.forward, rope.transform.position - transform.position);
         projection += transform.position;
         projection.y = transform.position.y;
         transform.LookAt(projection);
@@ -75,7 +105,7 @@ public class RopeController : MonoBehaviour
 
     private void SetPosition()
     {
-        Vector3 entryPosition = ropeTrigger.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 entryPosition = rope.GetComponent<Collider>().ClosestPoint(transform.position);
         entryPosition.y = transform.position.y;
         transform.position = entryPosition;
     }
@@ -96,6 +126,7 @@ public class RopeController : MonoBehaviour
     {
         GetComponent<SlidingTrigger>().enabled = true;
         enabled = false;
+        GetComponent<RopeTrigger>().enabled = true;
         GetComponent<DefaultController>().enabled = true;
         CameraController.EnableBodyRotation();
         CameraController.DisableWiderAngle();

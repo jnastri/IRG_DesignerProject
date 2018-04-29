@@ -15,9 +15,10 @@ public class ControllerSettings : MonoBehaviour {
     public float Speed = 12;
     public Animator Animator;
     float distanceToGround;
+    bool isColliding = false;
     public bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+        return isColliding || Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
     }
 
     // Use this for initialization
@@ -28,5 +29,11 @@ public class ControllerSettings : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Animator.SetBool(IS_GROUNDED, IsGrounded());
+        isColliding = false;
+    }
+
+    void OnCollisionStay()
+    {
+        isColliding = true;
     }
 }
