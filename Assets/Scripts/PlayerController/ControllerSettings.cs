@@ -12,6 +12,7 @@ public class ControllerSettings : MonoBehaviour {
     public const string DROP_HANG = SLIDE;
     public const string JUMP = "Jump";
     public const string IS_GROUNDED = "IsGrounded";
+    public GameObject Camera;
     public float Speed = 12;
     public Animator Animator;
     float distanceToGround;
@@ -24,6 +25,7 @@ public class ControllerSettings : MonoBehaviour {
     // Use this for initialization
     void Start () {
         distanceToGround = GetComponent<Collider>().bounds.extents.y;
+        Camera = FindObjectOfType<DefaultCamera>().gameObject;
     }
 	
 	// Update is called once per frame

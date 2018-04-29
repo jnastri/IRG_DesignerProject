@@ -23,18 +23,13 @@ public class RopeController : MonoBehaviour
     void Update()
     {
         float movement = Input.GetAxis(ControllerSettings.VERTICAL_AXIS);
-        transform.position += transform.forward * movement * Time.deltaTime * settings.Speed;
-        if (movement > 0)
+        if (movement != 0)
         {
+            var directionRelativeOfCamera = Vector3.Project(settings.Camera.transform.forward, rope.Points[0].position - rope.Points[1].position);
+            transform.position += directionRelativeOfCamera * movement * Time.deltaTime * settings.Speed;
+            Body.transform.LookAt(directionRelativeOfCamera + Body.transform.position);
             AlignWithRope();
-            Body.transform.LookAt(transform.forward + Body.transform.position);
             SetAnimatorSpeed(movement);
-        }
-        else if (movement < 0)
-        {
-            AlignWithRope();
-            Body.transform.LookAt(-transform.forward + Body.transform.position);
-            SetAnimatorSpeed(-movement);
         }
         else
         {
