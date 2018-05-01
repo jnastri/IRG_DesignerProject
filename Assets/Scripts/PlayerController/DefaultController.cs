@@ -16,11 +16,12 @@ public class DefaultController : MonoBehaviour
     public Vector3 PositionChangeClamped;
 
     ControllerSettings Settings;
-
+    CameraController CameraController;
     // Use this for initialization
     void Start()
     {
         Settings = GetComponent<ControllerSettings>();
+        CameraController = GetComponent<CameraController>();
     }
 
     // Update is called once per frame
@@ -52,8 +53,8 @@ public class DefaultController : MonoBehaviour
     {
         horizontal = Input.GetAxis(ControllerSettings.HORIZONTAL_AXIS);
         vertical = Input.GetAxis(ControllerSettings.VERTICAL_AXIS);
-        positionChange = transform.right * horizontal * Time.deltaTime * Settings.Speed;
-        positionChange += transform.forward * vertical * Time.deltaTime * Settings.Speed;
+        positionChange = CameraController.Pivot.transform.right * horizontal * Time.deltaTime * Settings.Speed;
+        positionChange += CameraController.Pivot.transform.forward * vertical * Time.deltaTime * Settings.Speed;
     }
 
     private void ClampSidewaysSpeed(ref Vector3 positionChange)

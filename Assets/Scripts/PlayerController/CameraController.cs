@@ -59,7 +59,7 @@ public class CameraController : MonoBehaviour
 
     public void EnableBodyRotation()
     {
-        Pivot.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        //Pivot.transform.localRotation = Quaternion.Euler(Vector3.zero);
         IsRotatingCharacter = true;
     }
 
