@@ -10,6 +10,7 @@ public class RopeController : MonoBehaviour
     public GameObject Body;
     public CameraController CameraController;
     public Animator Animator;
+    
 
     Rope rope;
     ControllerSettings settings;
@@ -22,14 +23,14 @@ public class RopeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float movement = Input.GetAxis(ControllerSettings.VERTICAL_AXIS);
-        if (movement != 0)
+        float verticalMovement = Input.GetAxis(ControllerSettings.VERTICAL_AXIS);
+        if (verticalMovement > 0)
         {
-            var directionRelativeOfCamera = Vector3.Project(settings.Camera.transform.forward, rope.Points[0].position - rope.Points[1].position);
-            transform.position += directionRelativeOfCamera * movement * Time.deltaTime * settings.Speed;
-            Body.transform.LookAt(directionRelativeOfCamera + Body.transform.position);
-            AlignWithRope();
-            SetAnimatorSpeed(movement);
+            ProcessMovement(verticalMovement);
+        }
+        else if (verticalMovement < 0)
+        {
+            ProcessMovement(verticalMovement, -1);
         }
         else
         {
@@ -40,6 +41,18 @@ public class RopeController : MonoBehaviour
                 GetComponent<HangingController>().Trigger();
             }
         }
+    }
+
+    private void ProcessMovement(float verticalMovement, int direction = 1)
+    {
+        var directionRelativeOfCamera = Vector3.Project(direction * settings.Camera.transform.forward, rope.Points[0].position - rope.Points[1].position);
+        transform.position += direction * directionRelativeOfCamera * verticalMovement * Time.deltaTime * settings.Speed;
+        var r = CameraController.Pivot.transform.rotation;
+        transform.LookAt(directionRelativeOfCamera + transform.position);
+        Body.transform.LookAt(directionRelativeOfCamera + Body.transform.position);
+        CameraController.Pivot.transform.rotation = r;
+        AlignWithRope();
+        SetAnimatorSpeed(verticalMovement * direction);
     }
 
     private void AlignWithRope()

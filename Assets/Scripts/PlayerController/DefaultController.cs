@@ -29,12 +29,6 @@ public class DefaultController : MonoBehaviour
         UpdateMovement();
     }
 
-    void FixedUpdate()
-    {
-
-    }
-
-
     private void UpdateMovement()
     {
         float horizontal;
@@ -75,7 +69,6 @@ public class DefaultController : MonoBehaviour
             positionChange += Body.transform.position;
             positionChange.y = Body.transform.position.y;
             Body.transform.LookAt(positionChange);
-
         }
     }
 

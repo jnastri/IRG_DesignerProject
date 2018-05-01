@@ -15,6 +15,7 @@ public class ControllerSettings : MonoBehaviour {
     public GameObject Camera;
     public float Speed = 12;
     public Animator Animator;
+
     float distanceToGround;
     bool isColliding = false;
     public bool IsGrounded()

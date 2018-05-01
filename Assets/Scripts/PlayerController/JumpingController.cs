@@ -8,11 +8,12 @@ public class JumpingController : MonoBehaviour {
     public Animator Animator;
 
     new Rigidbody rigidbody;
+    ControllerSettings settings;
 
     public float jumpForce = 100;
     // Use this for initialization
     void Start () {
-
+        settings = GetComponent<ControllerSettings>();
 	}
 	
 	// Update is called once per frame
@@ -35,8 +36,6 @@ public class JumpingController : MonoBehaviour {
         
         yield return new WaitForSeconds(1);
         Animator.SetBool(ControllerSettings.IS_JUMPING, false);
-        GetComponent<JumpingTrigger>().EnableAllTriggers();
         enabled = false;
-        GetComponent<DefaultController>().enabled = true;
     }
 }

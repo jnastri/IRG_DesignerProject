@@ -25,13 +25,4 @@ public class BehaviorTrigger : MonoBehaviour {
         enabled = true;
     }
 
-    public void EnableAllTriggers()
-    {
-        var triggers = GetComponents<BehaviorTrigger>();
-        foreach (var trigger in triggers)
-        {
-            trigger.enabled = true;
-        }
-    }
-
 }
