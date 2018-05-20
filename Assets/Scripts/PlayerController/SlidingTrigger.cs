@@ -21,7 +21,7 @@ public class SlidingTrigger : BehaviorTrigger
     // Update is called once per frame
     void Update()
     {
-        if (settings.IsGrounded() && (Time.time - slidingController.endTime) > 0.1f && defaultController.PositionChangeClamped.magnitude > EntrySpeed && Input.GetAxis(ControllerSettings.SLIDE) > 0)
+        if (settings.IsGrounded && (Time.time - slidingController.endTime) > 0.1f && defaultController.PositionChangeClamped.magnitude > EntrySpeed && Input.GetAxis(ControllerSettings.SLIDE) > 0)
         {
             DisableAllTriggersButMe();
             defaultController.enabled = false;

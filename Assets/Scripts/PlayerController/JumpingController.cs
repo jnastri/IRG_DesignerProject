@@ -37,5 +37,6 @@ public class JumpingController : MonoBehaviour {
         yield return new WaitForSeconds(1);
         Animator.SetBool(ControllerSettings.IS_JUMPING, false);
         enabled = false;
+        GetComponent<SlidingTrigger>().enabled = true;
     }
 }

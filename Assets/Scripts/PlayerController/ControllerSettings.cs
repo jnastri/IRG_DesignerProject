@@ -18,9 +18,13 @@ public class ControllerSettings : MonoBehaviour {
 
     float distanceToGround;
     bool isColliding = false;
-    public bool IsGrounded()
+
+
+    public bool IsGrounded;
+
+    public void updateIsGrounded()
     {
-        return isColliding || Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+        IsGrounded = isColliding || Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
     }
 
     // Use this for initialization
@@ -31,7 +35,8 @@ public class ControllerSettings : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Animator.SetBool(IS_GROUNDED, IsGrounded());
+        updateIsGrounded();
+        Animator.SetBool(IS_GROUNDED, IsGrounded);
         isColliding = false;
     }
 

@@ -22,7 +22,7 @@ public class JumpingTrigger : BehaviorTrigger
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis(ControllerSettings.JUMP) > 0 && settings.IsGrounded())
+        if (Input.GetAxis(ControllerSettings.JUMP) > 0 && settings.IsGrounded)
         {
             DisableAllTriggersButMe();
             jumpingController.enabled = true;

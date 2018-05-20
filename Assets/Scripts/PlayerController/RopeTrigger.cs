@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RopeTrigger : MonoBehaviour
-{ 
-     void Start()
-    {
+{
 
+    RopeController ropeController;
+
+    void Start()
+    {
+        ropeController = GetComponent<RopeController>();
     }
 
     void Update()
@@ -21,7 +24,8 @@ public class RopeTrigger : MonoBehaviour
             var rope = collision.collider.GetComponent<Rope>();
             if (rope)
             {
-                GetComponent<RopeController>().TriggerWalkEnter(rope);
+                ropeController.rope = rope;
+                ropeController.enabled = true;
             }
         }
     }
@@ -31,7 +35,7 @@ public class RopeTrigger : MonoBehaviour
         var rope = collision.collider.GetComponent<Rope>();
         if (rope)
         {
-            GetComponent<RopeController>().TriggerExit();
+            ropeController.enabled = false;
         }
     }
 }

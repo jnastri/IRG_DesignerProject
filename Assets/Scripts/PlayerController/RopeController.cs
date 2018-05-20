@@ -12,7 +12,7 @@ public class RopeController : MonoBehaviour
     public Animator Animator;
     
 
-    Rope rope;
+    public Rope rope;
     ControllerSettings settings;
     // Use this for initialization
     void Start()
@@ -35,11 +35,6 @@ public class RopeController : MonoBehaviour
         else
         {
             SetAnimatorSpeed(0);
-            if (Input.GetAxis(ControllerSettings.DROP_HANG) > 0)
-            {
-                TriggerExit();
-                GetComponent<HangingController>().Trigger();
-            }
         }
     }
 
@@ -90,10 +85,9 @@ public class RopeController : MonoBehaviour
         Animator.SetFloat(ControllerSettings.SPEED, speed);
     }
 
-    internal void TriggerWalkEnter(Rope rope)
+    void OnEnable()
     {
         if (Animator.GetBool(ControllerSettings.IS_HANGING)) return;
-        this.rope = rope;
         GetComponent<RopeTrigger>().enabled = false;
         ToggleOtherControllers();
         SetPosition();
@@ -125,7 +119,8 @@ public class RopeController : MonoBehaviour
         GetComponent<SlidingTrigger>().enabled = false;
     }
 
-    internal void TriggerExit()
+
+    void OnDisable()
     {
         UntoggleControllers();
     }
