@@ -24,7 +24,7 @@ public class LedgeDetector : MonoBehaviour
     }
 
 
-    public HanginResult GetHangingOrientation()
+    public HangingResult GetHangingOrientation()
     {
         List<TouchSensor> biggestUntriggeredGapSensors = new List<TouchSensor>();
         List<TouchSensor> untriggeredGapSensors = new List<TouchSensor>();
@@ -53,7 +53,7 @@ public class LedgeDetector : MonoBehaviour
                 CheckBiggestGap(biggestUntriggeredGapSensors, untriggeredGapSensors);
             }
         }
-
+        
         if (biggestUntriggeredGapSensors.Count > 3)
         {
             var a = biggestUntriggeredGapSensors.First();
@@ -64,10 +64,10 @@ public class LedgeDetector : MonoBehaviour
             middlePoint.Mark();
             Debug.Log(middlePoint);
 
-            return new HanginResult()
+            return new HangingResult()
             {
                 Position = (a.transform.position + b.transform.position + middlePoint.transform.position) / 3,
-                Rotation = transform.localRotation.eulerAngles
+                Rotation = middlePoint.transform.rotation.eulerAngles
             };
         }
         return null;
@@ -86,7 +86,7 @@ public class LedgeDetector : MonoBehaviour
 
 
 }
-    public class HanginResult
+    public class HangingResult
     {
         public Vector3 Rotation;
         public Vector3 Position;

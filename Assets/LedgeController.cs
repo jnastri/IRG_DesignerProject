@@ -6,15 +6,16 @@ public class LedgeController : MonoBehaviour
 {
 
     public Animator Animator;
+    public GameObject Body;
+    public HangingResult Orientation;
 
     Vector3 HandlePosition;
-
     bool canDrop = false;
-
+    float cooldown;
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -28,13 +29,23 @@ public class LedgeController : MonoBehaviour
 
     void OnEnable()
     {
+        if (Time.time - cooldown < 1)
+        {
+            enabled = false;
+            return;
+        }
+        GetComponent<CameraController>().DisableBodyRotation();
+        Debug.Log(Orientation.Rotation);
+        var rotation = Quaternion.Euler(Orientation.Rotation + new Vector3(0, -137, 0));
+        Body.transform.rotation = rotation;
+
         canDrop = false;
         GetComponent<LedgeTrigger>().enabled = false;
         GetComponent<RopeController>().enabled = false;
         GetComponent<RopeTrigger>().enabled = false;
         GetComponent<SlidingTrigger>().enabled = false;
         Animator.SetBool(ControllerSettings.IS_HANGING, true);
-        HandlePosition = transform.position + Vector3.down * 3;
+        HandlePosition = Vector3.down * 1.8f + Orientation.Position + (Body.transform.forward * 0.3f);
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<CameraController>().DisableBodyRotation();
         GetComponent<DefaultController>().enabled = false;
@@ -43,10 +54,10 @@ public class LedgeController : MonoBehaviour
 
     IEnumerator AdjustPosition()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.5f);
         while (Vector3.Distance(transform.position, HandlePosition) > 0.1f)
         {
-            transform.position = Vector3.Lerp(transform.position, HandlePosition, 5f);
+            transform.position = Vector3.Lerp(transform.position, HandlePosition, Time.deltaTime * 3f);
             yield return new WaitForEndOfFrame();
         }
         GetComponent<CameraController>().DisableBodyRotation();
@@ -63,6 +74,7 @@ public class LedgeController : MonoBehaviour
         GetComponent<CameraController>().EnableBodyRotation();
         GetComponent<DefaultController>().enabled = true;
         GetComponent<LedgeTrigger>().enabled = true;
+        cooldown = Time.time;
     }
 
 

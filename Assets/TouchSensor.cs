@@ -18,17 +18,18 @@ public class TouchSensor : MonoBehaviour {
         Debug.DrawRay(transform.position, -Vector3.up);
         if(Physics.Raycast(transform.position, -Vector3.up, 1 + 0.1f))
         {
-            GetComponent<Renderer>().material.color = Color.red;
+            GetComponent<Renderer>().material.color = Color.red - Color.black * 0.9f;
             IsTriggered = true;
         } else
         {
-            GetComponent<Renderer>().material.color = Color.green;
+            GetComponent<Renderer>().material.color = Color.green - Color.black * 0.9f;
             IsTriggered = false;
         }
+        
     }
 
     internal void Mark()
     {
-        GetComponent<Renderer>().material.color = Color.blue;
+        GetComponent<Renderer>().material.color = Color.blue - Color.black * 0.9f;
     }
 }

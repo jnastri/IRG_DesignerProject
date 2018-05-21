@@ -11,6 +11,6 @@ public class SlowMotionTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.E)) Time.timeScale = 0.01f;
+        if (Input.GetKey(KeyCode.E)) Time.timeScale = 0.1f;
 	}
 }
